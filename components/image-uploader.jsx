@@ -4,7 +4,7 @@ import { useState, useRef } from "react"
 import { Upload } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
-export default function ImageUploader({ onImageUpload, imageType, acceptedTypes }) {
+export default function ImageUploader({ onImageUpload, imageType, acceptedTypes, required = false }) {
   const [preview, setPreview] = useState(null)
   const [isDragging, setIsDragging] = useState(false)
   const fileInputRef = useRef(null)
@@ -51,9 +51,8 @@ export default function ImageUploader({ onImageUpload, imageType, acceptedTypes 
     <div className="w-full">
       {!preview ? (
         <div
-          className={`border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors ${
-            isDragging ? "border-primary bg-primary/5" : "border-gray-300 hover:border-primary"
-          }`}
+          className={`border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors ${isDragging ? "border-primary bg-primary/5" : "border-gray-300 hover:border-primary"
+            }`}
           onClick={() => fileInputRef.current.click()}
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
@@ -67,6 +66,7 @@ export default function ImageUploader({ onImageUpload, imageType, acceptedTypes 
             <p className="text-xs text-gray-500">
               {imageType === "signature" ? "PNG format only" : "Supports JPG, PNG, GIF"}
             </p>
+            {required && <p className="text-xs text-red-500 mt-1">Required</p>}
           </div>
           <input type="file" ref={fileInputRef} onChange={handleFileChange} accept={acceptedTypes} className="hidden" />
         </div>
